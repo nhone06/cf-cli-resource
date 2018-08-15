@@ -21,3 +21,8 @@ ADD https://storage.googleapis.com/cf-cli-resource/yaml_linux_amd64 /tmp/yaml_li
 RUN install /tmp/yaml_linux_amd64 /usr/local/bin/yaml && \
   yaml --help && \
   rm -f /tmp/yaml_linux_amd64
+
+# Install cf mysql plugin feature 
+ADD https://github.com/andreasf/cf-mysql-plugin/releases/download/v2.0.0/cf-mysql-plugin-linux-amd64 /tmp/cf-mysql-plugin
+RUN chmod +x /tmp/cf-mysql-plugin/cf-mysql-plugin-linux-amd64 && \
+  cp /tmp/cf-mysql-plugin/cf-mysql-plugin-linux-amd64 /usr/local/bin

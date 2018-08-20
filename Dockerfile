@@ -1,5 +1,9 @@
-FROM concourse/buildroot:base
+# FROM concourse/buildroot:base
+# FROM alpine:3.7
+FROM ubuntu:16.04
 
+RUN mkdir -p /opt/resource/
+RUN mkdir -p /opt/itest/
 ADD assets/ /opt/resource/
 ADD itest/ /opt/itest/
 
@@ -22,7 +26,11 @@ RUN install /tmp/yaml_linux_amd64 /usr/local/bin/yaml && \
   yaml --help && \
   rm -f /tmp/yaml_linux_amd64
 
-# Install cf mysql plugin feature 
+# Install cf mysql plugin
 ADD https://github.com/andreasf/cf-mysql-plugin/releases/download/v2.0.0/cf-mysql-plugin-linux-amd64 /tmp/cf-mysql-plugin
-RUN chmod +x /tmp/cf-mysql-plugin/cf-mysql-plugin-linux-amd64 && \
-  cp /tmp/cf-mysql-plugin/cf-mysql-plugin-linux-amd64 /usr/local/bin
+
+RUN apt-get update && apt-get install -y mysql-client jq && rm -rf /var/lib/apt
+
+RUN chmod +x /tmp/cf-mysql-plugin && \
+  cf install-plugin /tmp/cf-mysql-plugin -f  && \
+  rm -f /tmp/cf-mysql-plugin

@@ -17,7 +17,7 @@ if [ -z "$working_dir" ]; then
 fi
 
 # for jq
-PATH=/usr/local/bin:$PATH
+PATH=/usr/local/bin:/usr/bin:$PATH
 
 TMPDIR=${TMPDIR:-/tmp}
 payload=$(mktemp "$TMPDIR/cf-cli-resource-request.XXXXXX")
